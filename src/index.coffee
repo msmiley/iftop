@@ -15,28 +15,47 @@ class IftopParser extends EventEmitter
     '1.0pre4'
   ]
   @DEFAULT_BPF: "not ether host ff:ff:ff:ff:ff:ff and not net 239.0.0.0/8 and not net 224.0.0.0/8"
-
+  #
+  # Constructor initializes the iftop buffer.
+  #
   constructor: (@iface, @n=10) ->
     @_iftopBuffer = ""
-
+  #
+  # Spawns the iftop process if the version is supported
+  #
   start: ->
     if @checkIftopVersion()
       @spawnIftop()
     else
       @emit 'error', "ERROR: unsupported iftop version, we support #{JSON.stringify IftopParser.SUPPORTED_VERSIONS}"
-  
+  #
+  # Send iftop an 's', which toggles source aggregation
+  #
   toggleAggregateSrc: ->
     @term.write 's' if @term
-  
+  #
+  # Send iftop a 'd', which toggles destination aggregation
+  #
   toggleAggregateDst: ->
     @term.write 'd' if @term
-
+  #
+  # Send iftop an 'n', which toggles DNS resolution
+  #
   toggleDNSResolution: ->
     @term.write 'n' if @term
-  
+  #
+  # Send iftop a 'p', which toggles port numbers
+  #
   togglePortDisplay: ->
     @term.write 'p' if @term
-  
+  #
+  # Send the given keystroke(s) to iftop directly
+  #
+  sendKeystroke: (str) ->
+    @term.write str
+  #
+  # Parses the (-h) output of iftop to verify the version number is in SUPPORTED_VERSIONS
+  #
   checkIftopVersion: ->
     output = child_process.spawnSync IftopParser.PATH, ['-h']
     if output.error
@@ -45,7 +64,9 @@ class IftopParser extends EventEmitter
     if m and m.length > 1 and m[1] in IftopParser.SUPPORTED_VERSIONS
       return true
     return false
-    
+  #
+  # Spawn iftop as a pty process
+  #
   spawnIftop: ->
     @term = pty.spawn IftopParser.PATH, ["-i", @iface, "-t", "-L", @n, "-p", "-f", IftopParser.DEFAULT_BPF, "-N"],
       name: 'xterm-color'
@@ -59,7 +80,9 @@ class IftopParser extends EventEmitter
         @emit 'error', "ERROR: can't find specified device"
       else
         @handleData data
-
+  #
+  # Handle incoming data from iftop pty
+  #
   handleData: (d) ->
     @_iftopBuffer += d
   
@@ -121,8 +144,14 @@ class IftopParser extends EventEmitter
 
           @emit 'data', obj
 
+#
+# Exports
+#
 module.exports = IftopParser
 
+#
+# Standalone test mode
+#
 main = ->
   
   iftop = new IftopParser('eth0', 20)
