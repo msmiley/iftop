@@ -1,10 +1,10 @@
 # iftop
 
-Use the power and speed of iftop to get flow rates and totals of traffic incident on a network device.
+Use the power and speed of [iftop](http://www.ex-parrot.com/pdw/iftop/) to get flow rates and totals of traffic incident on a network device.
 
 Note that the user running this process will need capture permissions on the specified device.
 
-Examples of how this is done:
+Examples of how this is typically done:
 
 linux:
 
@@ -23,7 +23,7 @@ sudo chmod +r /dev/bpf*
 ```coffee
 IftopParser = require 'iftop'
 
-IftopParser.PATH = "/usr/sbin/iftop" # only if needed, if iftop is on the path, shouldn't need this
+IftopParser.PATH = "/usr/sbin/iftop" # only if iftop is not on the path
 
 iftop = new IftopParser("eth0")
 
@@ -37,7 +37,7 @@ iftop.on 'data', (d) ->
 
 iftop.start()
 
-# optional manipulations after start() has been called
+# optional manipulations after start() has been called (these are passed to iftop)
 iftop.toggleAggregateSrc()
 iftop.toggleAggregateDst()
 iftop.toggleDNSResolution()
