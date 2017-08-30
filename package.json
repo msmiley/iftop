@@ -1,0 +1,21 @@
+{
+  "name": "iftop",
+  "version": "1.0.0",
+  "description": "runs and parses iftop output into js objects",
+  "main": "./lib",
+  "scripts": {
+    "docs": "cake docs",
+    "prepublish": "cake build && cake docs"
+  },
+  "author": "Mike Smiley <msmiley@alumni.rice.edu>",
+  "repository": "msmiley/iftop.git",
+  "license": "ISC",
+  "devDependencies": {
+    "docco": "*",
+    "coffee-script": "^1.12.0",
+    "jasmine-node": "^1.14.5"
+  },
+  "dependencies": {
+    "pty.js": "^0.3.1"
+  }
+}
