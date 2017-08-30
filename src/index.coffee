@@ -60,6 +60,7 @@ class IftopParser extends EventEmitter
     output = child_process.spawnSync IftopParser.PATH, ['-h']
     if output.error
       @emit 'error', "ERROR: can't find iftop"
+      return false
     m = output.stdout.toString().match /iftop, version ([^\s]+)\n/
     if m and m.length > 1 and m[1] in IftopParser.SUPPORTED_VERSIONS
       return true
