@@ -9,7 +9,7 @@ Examples of how this is typically done:
 linux:
 
 ```bash
-sudo setcap cap_net_raw,cap_net_admin=eip /usr/bin/node
+sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/iftop
 ```
 
 macOS:
