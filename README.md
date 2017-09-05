@@ -20,28 +20,30 @@ sudo chmod +r /dev/bpf*
 
 ## Usage
 
-```coffee
-IftopParser = require 'iftop'
+```js
+var IftopParser = require('iftop');
 
-IftopParser.PATH = "/usr/sbin/iftop" # only if iftop is not on the path
+IftopParser.iftopPath = "/usr/sbin/iftop"; // only if iftop is not on the path
 
-iftop = new IftopParser("eth0")
+var iftop = new IftopParser("eth0");
 
 # set up error handler
-iftop.on 'error', (e) ->
-    console.error e
+iftop.on('error', (e) => {
+    console.error(e);
+});
 
 # set up data handler
-iftop.on 'data', (d) ->
-    console.log d
+iftop.on('data', (d) => {
+    console.log(d);
+});
 
-iftop.start()
+iftop.start();
 
 # optional manipulations after start() has been called (these are passed to iftop)
-iftop.toggleAggregateSrc()
-iftop.toggleAggregateDst()
-iftop.toggleDNSResolution()
-iftop.togglePortDisplay()
+iftop.toggleAggregateSrc();
+iftop.toggleAggregateDst();
+iftop.toggleDNSResolution();
+iftop.togglePortDisplay();
 
 ```
 
