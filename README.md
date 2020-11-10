@@ -21,25 +21,25 @@ sudo chmod +r /dev/bpf*
 ## Usage
 
 ```js
-var IftopParser = require('iftop');
+const IftopParser = require('iftop');
 
 IftopParser.iftopPath = "/usr/sbin/iftop"; // only if iftop is not on the path
 
 var iftop = new IftopParser("eth0");
 
-# set up error handler
+// set up error handler
 iftop.on('error', (e) => {
     console.error(e);
 });
 
-# set up data handler
+// set up data handler
 iftop.on('data', (d) => {
     console.log(d);
 });
 
 iftop.start();
 
-# optional manipulations after start() has been called (these are passed to iftop)
+// optional manipulations after start() has been called (these are passed to iftop)
 iftop.toggleAggregateSrc();
 iftop.toggleAggregateDst();
 iftop.toggleDNSResolution();
